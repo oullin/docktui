@@ -15,9 +15,11 @@ func TestDiscoverMergesComposeAndConfigProjects(t *testing.T) {
 	inv := Inventory{Containers: []dockerd.Container{{Name: "api", ProjectName: "demo"}}, Volumes: []dockerd.Volume{{Name: "other", ProjectName: "extra"}}}
 
 	got := Discover(cfg, inv)
+
 	if len(got.Projects) != 2 {
 		t.Fatalf("expected 2 projects, got %#v", got.Projects)
 	}
+
 	if got.Projects[0].Name != "demo" || len(got.Projects[0].Images) != 1 {
 		t.Fatalf("config rules should extend detected project: %#v", got.Projects[0])
 	}
@@ -45,6 +47,7 @@ func TestMatchProjectRules(t *testing.T) {
 	}
 
 	got := Match(def, inv)
+
 	if len(got.Images) != 2 || len(got.Containers) != 1 || len(got.Volumes) != 1 {
 		t.Fatalf("unexpected matches: %#v", got)
 	}

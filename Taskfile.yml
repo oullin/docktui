@@ -30,6 +30,11 @@ tasks:
     cmds:
       - gofmt -w ./cmd ./internal
 
+  format-all:
+    desc: Format all Go files using go-fmt v0.4.1
+    cmds:
+      - go run github.com/oullin/go-fmt/packages/driver/cmd/fmt-go@b4f302671cbc705fc7b13be4eafc6f33e7f6cb65 format .
+
   smoke:
     desc: Verify the binary builds and can print its version
     deps: [build]

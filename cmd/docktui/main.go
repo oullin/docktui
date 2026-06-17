@@ -20,27 +20,32 @@ func main() {
 		configPath = flag.String("config", "", "path to a docktui project config file")
 		showVer    = flag.Bool("version", false, "print version and exit")
 	)
+
 	flag.Parse()
 
 	if *showVer {
 		fmt.Println(version)
+
 		return
 	}
 
 	ctx := context.Background()
 	client, err := dockerd.NewSDKClient()
+
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "docktui: %v\n", err)
 		os.Exit(1)
 	}
 
 	config, err := project.LoadConfig(*configPath)
+
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "docktui: %v\n", err)
 		os.Exit(1)
 	}
 
 	program := tea.NewProgram(tui.New(ctx, client, config), tea.WithAltScreen())
+
 	if _, err := program.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, "docktui: %v\n", err)
 		os.Exit(1)

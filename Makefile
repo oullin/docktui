@@ -27,13 +27,16 @@ DOCKER_RUN_TTY := docker run --rm -it \
 
 TASK := sh -lc 'export PATH=/go/bin:/usr/local/go/bin:$$PATH; go install github.com/go-task/task/v3/cmd/task@$(TASK_VERSION) && task "$$@"' task
 
-.PHONY: run fmt lint test build smoke
+.PHONY: run fmt format-all lint test build smoke
 
 run:
 	$(DOCKER_RUN_TTY) $(TASK) run
 
 fmt:
 	$(DOCKER_RUN) $(TASK) fmt
+
+format-all:
+	$(DOCKER_RUN) $(TASK) format-all
 
 lint:
 	$(DOCKER_RUN) $(TASK) lint

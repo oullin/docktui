@@ -20,14 +20,6 @@ type Client interface {
 
 type PruneType string
 
-const (
-	PruneDanglingImages    PruneType = "dangling-images"
-	PruneStoppedContainers PruneType = "stopped-containers"
-	PruneUnusedVolumes     PruneType = "unused-volumes"
-	PruneBuildCache        PruneType = "build-cache"
-	PruneAllOrphans        PruneType = "all-orphans"
-)
-
 type DiskUsage struct {
 	ImagesReclaimable     int64
 	ContainersReclaimable int64
@@ -85,3 +77,11 @@ type ActionReport struct {
 	SpaceReclaimed int64
 	Warnings       []string
 }
+
+const (
+	PruneDanglingImages    PruneType = "dangling-images"
+	PruneStoppedContainers PruneType = "stopped-containers"
+	PruneUnusedVolumes     PruneType = "unused-volumes"
+	PruneBuildCache        PruneType = "build-cache"
+	PruneAllOrphans        PruneType = "all-orphans"
+)
