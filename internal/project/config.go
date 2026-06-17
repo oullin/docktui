@@ -28,6 +28,20 @@ func LoadConfig(explicit string) (Config, error) {
 	} else {
 		paths = append(paths, ".docktui.yaml")
 
+		var localPaths []string
+
+		if matches, err := filepath.Glob(filepath.Join("config", "*.yaml")); err == nil {
+			localPaths = append(localPaths, matches...)
+		}
+
+		if matches, err := filepath.Glob(filepath.Join("config", "*.yml")); err == nil {
+			localPaths = append(localPaths, matches...)
+		}
+
+		sort.Strings(localPaths)
+
+		paths = append(paths, localPaths...)
+
 		if home, err := os.UserHomeDir(); err == nil {
 			paths = append(paths, filepath.Join(home, ".config", "docktui", "projects.yaml"))
 		}

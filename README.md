@@ -76,9 +76,10 @@ make build
 
 ## Configuration
 
-`docktui` loads and merges project rules from the following paths by default:
-1. `./.docktui.yaml`
-2. `~/.config/docktui/projects.yaml`
+`docktui` loads and merges project rules from the following paths by default (merging list items and overriding labels):
+1. `./.docktui.yaml` - Shared project-level configuration (typically checked into git).
+2. Local files matching `config/*.yaml` or `config/*.yml` - Local-only project configurations (git-ignored, ideal for developer-specific overrides).
+3. `~/.config/docktui/projects.yaml` - Global user-wide configuration.
 
 If the `-config` flag is explicitly provided, only the specified configuration file is loaded.
 
