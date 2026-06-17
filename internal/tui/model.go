@@ -288,44 +288,44 @@ func (m *Model) resizeTable() {
 
 func (m *Model) rebuildRows() {
 	m.resizeTable()
+	var cols []table.Column
+	var rows []table.Row
 	switch m.active {
 	case tabImages:
-		m.table.SetColumns(columns("Sel", 5, "Repository", 28, "Tag", 16, "Size", 12, "Project", 16))
-		rows := make([]table.Row, 0, len(m.inventory.Images))
+		cols = columns("Sel", 5, "Repository", 28, "Tag", 16, "Size", 12, "Project", 16)
+		rows = make([]table.Row, 0, len(m.inventory.Images))
 		for _, item := range sortedImages(m.inventory.Images) {
 			rows = append(rows, table.Row{mark(m.selectedImages, item.ID), item.Repository, item.Tag, dockerd.FormatBytes(item.Size), item.ProjectName})
 		}
-		m.table.SetRows(rows)
 	case tabContainers:
-		m.table.SetColumns(columns("Sel", 5, "Name", 24, "Image", 28, "State", 10, "Project", 16))
-		rows := make([]table.Row, 0, len(m.inventory.Containers))
+		cols = columns("Sel", 5, "Name", 24, "Image", 28, "State", 10, "Project", 16)
+		rows = make([]table.Row, 0, len(m.inventory.Containers))
 		for _, item := range sortedContainers(m.inventory.Containers) {
 			rows = append(rows, table.Row{mark(m.selectedContainers, item.ID), item.Name, item.Image, item.State, item.ProjectName})
 		}
-		m.table.SetRows(rows)
 	case tabVolumes:
-		m.table.SetColumns(columns("Sel", 5, "Name", 34, "Driver", 12, "Size", 12, "Project", 16))
-		rows := make([]table.Row, 0, len(m.inventory.Volumes))
+		cols = columns("Sel", 5, "Name", 34, "Driver", 12, "Size", 12, "Project", 16)
+		rows = make([]table.Row, 0, len(m.inventory.Volumes))
 		for _, item := range sortedVolumes(m.inventory.Volumes) {
 			rows = append(rows, table.Row{mark(m.selectedVolumes, item.Name), item.Name, item.Driver, dockerd.FormatBytes(item.Size), item.ProjectName})
 		}
-		m.table.SetRows(rows)
 	case tabBuildCache:
-		m.table.SetColumns(columns("ID", 18, "Description", 36, "Size", 12, "In Use", 8))
-		rows := make([]table.Row, 0, len(m.cache))
+		cols = columns("ID", 18, "Description", 36, "Size", 12, "In Use", 8)
+		rows = make([]table.Row, 0, len(m.cache))
 		for _, item := range m.cache {
 			rows = append(rows, table.Row{shortID(item.ID), item.Description, dockerd.FormatBytes(item.Size), fmt.Sprintf("%t", item.InUse)})
 		}
-		m.table.SetRows(rows)
 	case tabProjects:
-		m.table.SetColumns(columns("Name", 24, "Images", 8, "Containers", 12, "Volumes", 8))
-		rows := make([]table.Row, 0, len(m.projects.Projects))
+		cols = columns("Name", 24, "Images", 8, "Containers", 12, "Volumes", 8)
+		rows = make([]table.Row, 0, len(m.projects.Projects))
 		for _, def := range m.projects.Projects {
 			res := project.Match(def, m.inventory)
 			rows = append(rows, table.Row{def.Name, fmt.Sprint(len(res.Images)), fmt.Sprint(len(res.Containers)), fmt.Sprint(len(res.Volumes))})
 		}
-		m.table.SetRows(rows)
 	}
+	m.table.SetRows(nil)
+	m.table.SetColumns(cols)
+	m.table.SetRows(rows)
 }
 
 func columns(args ...any) []table.Column {
