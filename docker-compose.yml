@@ -13,7 +13,6 @@ services:
 
   fmt:
     image: ${FMT_IMAGE:-ghcr.io/oullin/go-fmt:v0.4.1}
-    user: "${UID}:${GID}"
     volumes:
       - .:/work
     environment:

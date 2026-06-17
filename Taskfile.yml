@@ -33,7 +33,7 @@ tasks:
   format-all:
     desc: Format all Go files using go-fmt v0.4.1
     cmds:
-      - docker run --rm --user $(id -u):$(id -g) -v "{{.PWD}}:/work" -w /work -e HOST_PROJECT_PATH="{{.PWD}}" ghcr.io/oullin/go-fmt:v0.4.1 format .
+      - PWD="{{.PWD}}" docker-compose run --rm -T --user $(id -u):$(id -g) fmt format .
 
   smoke:
     desc: Verify the binary builds and can print its version

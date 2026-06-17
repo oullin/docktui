@@ -10,17 +10,15 @@ export GO_BIN_VOLUME
 export GO_MOD_VOLUME
 export GO_BUILD_VOLUME
 
-DOCKER_RUN := docker compose run --rm -T app
-DOCKER_RUN_TTY := docker compose run --rm app
+DOCKER_RUN := docker-compose run --rm -T app
+DOCKER_RUN_TTY := docker-compose run --rm app
 
 TASK := sh -lc 'export PATH=/go/bin:/usr/local/go/bin:$$PATH; go install github.com/go-task/task/v3/cmd/task@$(TASK_VERSION) && task "$$@"' task
 
-export UID := $(shell id -u)
-export GID := $(shell id -g)
-export PWD := $(shell pwd)
 export FMT_IMAGE ?= ghcr.io/oullin/go-fmt:v0.4.1
+export PWD := $(shell pwd)
 
-FMT_RUN := docker compose run --rm -T fmt
+FMT_RUN := docker-compose run --rm -T --user $(shell id -u):$(shell id -g) fmt
 
 .PHONY: run fmt format-all lint test build smoke
 
