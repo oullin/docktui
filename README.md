@@ -2,7 +2,7 @@
 
 `docktui` is a standalone, full-screen terminal UI for inspecting local Docker disk usage, exploring Docker resources, and safely reclaiming space.
 
-It integrates with the Docker Go SDK to normalize Docker resources, summarizes real-time disk usage statistics, and enforces confirmation safety rails before executing destructive operations.
+It integrates with the Docker Go SDK to normalise Docker resources, summarises real-time disk usage statistics, and enforces confirmation safety rails before executing destructive operations.
 
 ---
 
@@ -10,7 +10,7 @@ It integrates with the Docker Go SDK to normalize Docker resources, summarizes r
 
 - **Resource Visualization**: View, paginate, and sort Images, Containers, Volumes, and Build Cache.
 - **Disk Usage Stats**: The top header displays total, reclaimable, and resource-specific disk space usage in real time.
-- **Project-Centric Management**: Groups resources into logical "Projects" (auto-detected via Docker Compose labels or customized via configuration files) to clean up all related resources at once.
+- **Project-Centric Management**: Groups resources into logical "Projects" (auto-detected via Docker Compose labels or customised via configuration files) to clean up all related resources at once.
 - **Visual Loader**: Visual loading spinners are displayed during data fetching or deletion tasks.
 - **Double Confirmation Safety**:
   - Pruning or deleting requires a confirmation prompt (`y` to proceed, `n`/`esc` to cancel).

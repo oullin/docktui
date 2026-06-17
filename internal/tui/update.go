@@ -135,7 +135,7 @@ func (m Model) updateConfirmation(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case "esc", "n":
 		m.pending = cleanup.Plan{}
 		m.volumePrompt = false
-		m.status = "Canceled."
+		m.status = "Cancelled."
 
 		return m, nil
 	case "y":

@@ -79,7 +79,7 @@ func (c *SDKClient) ListImages(ctx context.Context) ([]Image, error) {
 	out := make([]Image, 0, len(items))
 
 	for _, item := range items {
-		out = append(out, NormalizeImage(item)...)
+		out = append(out, NormaliseImage(item)...)
 	}
 
 	return out, nil
@@ -95,7 +95,7 @@ func (c *SDKClient) ListContainers(ctx context.Context) ([]Container, error) {
 	out := make([]Container, 0, len(items))
 
 	for _, item := range items {
-		out = append(out, NormalizeContainer(item))
+		out = append(out, NormaliseContainer(item))
 	}
 
 	return out, nil
@@ -111,7 +111,7 @@ func (c *SDKClient) ListVolumes(ctx context.Context) ([]Volume, error) {
 	out := make([]Volume, 0, len(resp.Volumes))
 
 	for _, item := range resp.Volumes {
-		out = append(out, NormalizeVolume(item))
+		out = append(out, NormaliseVolume(item))
 	}
 
 	return out, nil
@@ -127,7 +127,7 @@ func (c *SDKClient) ListBuildCache(ctx context.Context) ([]BuildCache, error) {
 	out := make([]BuildCache, 0, len(usage.BuildCache))
 
 	for _, item := range usage.BuildCache {
-		out = append(out, NormalizeBuildCache(item))
+		out = append(out, NormaliseBuildCache(item))
 	}
 
 	return out, nil

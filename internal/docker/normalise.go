@@ -10,7 +10,7 @@ import (
 	volumetypes "github.com/docker/docker/api/types/volume"
 )
 
-func NormalizeImage(item imagetypes.Summary) []Image {
+func NormaliseImage(item imagetypes.Summary) []Image {
 	refs := item.RepoTags
 
 	if len(refs) == 0 {
@@ -42,7 +42,7 @@ func NormalizeImage(item imagetypes.Summary) []Image {
 	return out
 }
 
-func NormalizeContainer(item containertypes.Summary) Container {
+func NormaliseContainer(item containertypes.Summary) Container {
 	return Container{
 		ID:          item.ID,
 		Name:        firstName(item.Names),
@@ -56,7 +56,7 @@ func NormalizeContainer(item containertypes.Summary) Container {
 	}
 }
 
-func NormalizeVolume(item *volumetypes.Volume) Volume {
+func NormaliseVolume(item *volumetypes.Volume) Volume {
 	var size int64
 
 	if item.UsageData != nil {
@@ -73,7 +73,7 @@ func NormalizeVolume(item *volumetypes.Volume) Volume {
 	}
 }
 
-func NormalizeBuildCache(item *build.CacheRecord) BuildCache {
+func NormaliseBuildCache(item *build.CacheRecord) BuildCache {
 	var lastUsed time.Time
 
 	if item.LastUsedAt != nil {

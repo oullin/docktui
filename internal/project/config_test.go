@@ -50,7 +50,7 @@ projects:
 projects:
   - name: my-project
     labels:
-      color: red
+      colour: red
 `)
 
 	if err := os.WriteFile(filepath.Join("config", "a.yml"), aConfig, 0644); err != nil {
@@ -61,7 +61,7 @@ projects:
 projects:
   - name: my-project
     labels:
-      color: blue
+      colour: blue
 `)
 
 	if err := os.WriteFile(filepath.Join("config", "z.yaml"), zConfig, 0644); err != nil {
@@ -78,7 +78,7 @@ projects:
 		Labels map[string]string
 	}{
 		"project-dot": {Labels: nil},
-		"my-project":  {Labels: map[string]string{"color": "blue"}},
+		"my-project":  {Labels: map[string]string{"colour": "blue"}},
 	}
 
 	if len(cfg.Projects) != len(expectedProjects) {
@@ -95,7 +95,7 @@ projects:
 		}
 
 		if expected.Labels != nil {
-			if len(p.Labels) != len(expected.Labels) || p.Labels["color"] != expected.Labels["color"] {
+			if len(p.Labels) != len(expected.Labels) || p.Labels["colour"] != expected.Labels["colour"] {
 				t.Errorf("expected labels %v for project %s, got %v", expected.Labels, p.Name, p.Labels)
 			}
 		}
