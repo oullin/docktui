@@ -48,24 +48,24 @@ projects:
 
 	aConfig := []byte(`
 projects:
-  - name: project-a
-    images:
-      - "img-a"
+  - name: my-project
+    labels:
+      color: red
 `)
 
-	if err := os.WriteFile(filepath.Join("config", "a.yaml"), aConfig, 0644); err != nil {
-		t.Fatalf("failed to write config/a.yaml: %v", err)
+	if err := os.WriteFile(filepath.Join("config", "a.yml"), aConfig, 0644); err != nil {
+		t.Fatalf("failed to write config/a.yml: %v", err)
 	}
 
-	bConfig := []byte(`
+	zConfig := []byte(`
 projects:
-  - name: project-b
-    images:
-      - "img-b"
+  - name: my-project
+    labels:
+      color: blue
 `)
 
-	if err := os.WriteFile(filepath.Join("config", "b.yml"), bConfig, 0644); err != nil {
-		t.Fatalf("failed to write config/b.yml: %v", err)
+	if err := os.WriteFile(filepath.Join("config", "z.yaml"), zConfig, 0644); err != nil {
+		t.Fatalf("failed to write config/z.yaml: %v", err)
 	}
 
 	cfg, err := LoadConfig("")
@@ -74,10 +74,11 @@ projects:
 		t.Fatalf("LoadConfig returned error: %v", err)
 	}
 
-	expectedProjects := map[string][]string{
-		"project-dot": {"img-dot"},
-		"project-a":   {"img-a"},
-		"project-b":   {"img-b"},
+	expectedProjects := map[string]struct {
+		Labels map[string]string
+	}{
+		"project-dot": {Labels: nil},
+		"my-project":  {Labels: map[string]string{"color": "blue"}},
 	}
 
 	if len(cfg.Projects) != len(expectedProjects) {
@@ -85,7 +86,7 @@ projects:
 	}
 
 	for _, p := range cfg.Projects {
-		expectedImages, ok := expectedProjects[p.Name]
+		expected, ok := expectedProjects[p.Name]
 
 		if !ok {
 			t.Errorf("unexpected project loaded: %s", p.Name)
@@ -93,8 +94,10 @@ projects:
 			continue
 		}
 
-		if len(p.Images) != len(expectedImages) || p.Images[0] != expectedImages[0] {
-			t.Errorf("expected images %v for project %s, got %v", expectedImages, p.Name, p.Images)
+		if expected.Labels != nil {
+			if len(p.Labels) != len(expected.Labels) || p.Labels["color"] != expected.Labels["color"] {
+				t.Errorf("expected labels %v for project %s, got %v", expected.Labels, p.Name, p.Labels)
+			}
 		}
 	}
 }
