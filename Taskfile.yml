@@ -1,0 +1,46 @@
+version: "3"
+
+vars:
+  BIN: docktui
+  DIST: dist
+
+tasks:
+  build:
+    desc: Build the docktui binary
+    cmds:
+      - go build -ldflags="-s -w" -o {{.DIST}}/{{.BIN}} ./cmd/docktui
+
+  run:
+    desc: Run docktui from source
+    cmds:
+      - go run ./cmd/docktui
+
+  test:
+    desc: Run unit tests
+    cmds:
+      - go test ./...
+
+  lint:
+    desc: Run go vet
+    cmds:
+      - go vet ./...
+
+  fmt:
+    desc: Format Go sources
+    cmds:
+      - gofmt -w ./cmd ./internal
+
+  smoke:
+    desc: Verify the binary builds and can print its version
+    deps: [build]
+    cmds:
+      - ./{{.DIST}}/{{.BIN}} -version
+
+  release:
+    desc: Build release binaries for macOS and Linux on amd64 and arm64
+    cmds:
+      - mkdir -p {{.DIST}}
+      - GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w -X main.version={{.VERSION | default "dev"}}" -o {{.DIST}}/{{.BIN}}_darwin_amd64 ./cmd/docktui
+      - GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w -X main.version={{.VERSION | default "dev"}}" -o {{.DIST}}/{{.BIN}}_darwin_arm64 ./cmd/docktui
+      - GOOS=linux GOARCH=amd64 go build -ldflags="-s -w -X main.version={{.VERSION | default "dev"}}" -o {{.DIST}}/{{.BIN}}_linux_amd64 ./cmd/docktui
+      - GOOS=linux GOARCH=arm64 go build -ldflags="-s -w -X main.version={{.VERSION | default "dev"}}" -o {{.DIST}}/{{.BIN}}_linux_arm64 ./cmd/docktui
