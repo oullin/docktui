@@ -26,14 +26,14 @@ tasks:
       - go vet ./...
 
   fmt:
-    desc: Format Go sources
+    desc: Format Go sources using go-fmt
     cmds:
-      - gofmt -w ./cmd ./internal
+      - task: format-all
 
   format-all:
     desc: Format all Go files using go-fmt v0.4.1
     cmds:
-      - go run github.com/oullin/go-fmt/packages/driver/cmd/fmt-go@b4f302671cbc705fc7b13be4eafc6f33e7f6cb65 format .
+      - docker run --rm --user $(id -u):$(id -g) -v "{{.PWD}}:/work" -w /work -e HOST_PROJECT_PATH="{{.PWD}}" ghcr.io/oullin/go-fmt:v0.4.1 format .
 
   smoke:
     desc: Verify the binary builds and can print its version

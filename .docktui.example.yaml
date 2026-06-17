@@ -1,8 +1,8 @@
 projects:
-  - name: go-fmt
+  - name: my-project
     images:
-      - "go-fmt-*:local"
+      - "my-project-*:latest"
     labels:
-      local.go-fmt.formatter-fingerprint: "*"
+      com.example.project.component: "*"
     volumes:
-      - "go-fmt-cache"
+      - "my-project-cache"

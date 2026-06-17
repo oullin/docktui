@@ -5,27 +5,22 @@ GO_BIN_VOLUME ?= docktui-go-bin
 GO_MOD_VOLUME ?= docktui-go-mod
 GO_BUILD_VOLUME ?= docktui-go-build
 
-DOCKER_RUN := docker run --rm \
-	-v "$(PWD)":$(WORKDIR) \
-	-w $(WORKDIR) \
-	-v $(GO_BIN_VOLUME):/go/bin \
-	-v $(GO_MOD_VOLUME):/go/pkg/mod \
-	-v $(GO_BUILD_VOLUME):/root/.cache/go-build \
-	-v /var/run/docker.sock:/var/run/docker.sock \
-	-e DOCKER_HOST=unix:///var/run/docker.sock \
-	$(GO_IMAGE)
+export GO_IMAGE
+export GO_BIN_VOLUME
+export GO_MOD_VOLUME
+export GO_BUILD_VOLUME
 
-DOCKER_RUN_TTY := docker run --rm -it \
-	-v "$(PWD)":$(WORKDIR) \
-	-w $(WORKDIR) \
-	-v $(GO_BIN_VOLUME):/go/bin \
-	-v $(GO_MOD_VOLUME):/go/pkg/mod \
-	-v $(GO_BUILD_VOLUME):/root/.cache/go-build \
-	-v /var/run/docker.sock:/var/run/docker.sock \
-	-e DOCKER_HOST=unix:///var/run/docker.sock \
-	$(GO_IMAGE)
+DOCKER_RUN := docker compose run --rm -T app
+DOCKER_RUN_TTY := docker compose run --rm app
 
 TASK := sh -lc 'export PATH=/go/bin:/usr/local/go/bin:$$PATH; go install github.com/go-task/task/v3/cmd/task@$(TASK_VERSION) && task "$$@"' task
+
+export UID := $(shell id -u)
+export GID := $(shell id -g)
+export PWD := $(shell pwd)
+export FMT_IMAGE ?= ghcr.io/oullin/go-fmt:v0.4.1
+
+FMT_RUN := docker compose run --rm -T fmt
 
 .PHONY: run fmt format-all lint test build smoke
 
@@ -33,10 +28,10 @@ run:
 	$(DOCKER_RUN_TTY) $(TASK) run
 
 fmt:
-	$(DOCKER_RUN) $(TASK) fmt
+	$(FMT_RUN) format .
 
 format-all:
-	$(DOCKER_RUN) $(TASK) format-all
+	$(FMT_RUN) format .
 
 lint:
 	$(DOCKER_RUN) $(TASK) lint

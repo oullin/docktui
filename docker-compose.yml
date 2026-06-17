@@ -1,0 +1,29 @@
+services:
+  app:
+    image: ${GO_IMAGE:-golang:1.26.4-alpine}
+    volumes:
+      - .:/workspace
+      - docktui-go-bin:/go/bin
+      - docktui-go-mod:/go/pkg/mod
+      - docktui-go-build:/root/.cache/go-build
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    working_dir: /workspace
+
+  fmt:
+    image: ${FMT_IMAGE:-ghcr.io/oullin/go-fmt:v0.4.1}
+    user: "${UID}:${GID}"
+    volumes:
+      - .:/work
+    environment:
+      - HOST_PROJECT_PATH=${PWD}
+    working_dir: /work
+
+volumes:
+  docktui-go-bin:
+    name: ${GO_BIN_VOLUME:-docktui-go-bin}
+  docktui-go-mod:
+    name: ${GO_MOD_VOLUME:-docktui-go-mod}
+  docktui-go-build:
+    name: ${GO_BUILD_VOLUME:-docktui-go-build}
