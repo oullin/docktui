@@ -105,3 +105,23 @@ func splitRef(ref string) (string, string) {
 
 	return ref[:idx], ref[idx+1:]
 }
+
+func projectName(labels map[string]string) string {
+	return labels["com.docker.compose.project"]
+}
+
+func firstName(names []string) string {
+	if len(names) == 0 {
+		return ""
+	}
+
+	return strings.TrimPrefix(names[0], "/")
+}
+
+func unixTime(sec int64) time.Time {
+	if sec <= 0 {
+		return time.Time{}
+	}
+
+	return time.Unix(sec, 0)
+}

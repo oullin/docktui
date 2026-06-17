@@ -172,3 +172,37 @@ func (m Model) loaderView(height int) string {
 		Align(lipgloss.Center, lipgloss.Center).
 		Render(text)
 }
+
+func (m Model) View() string {
+	if m.width == 0 {
+		return "docktui"
+	}
+
+	var body string
+	h := m.tableHeight()
+
+	if m.loading {
+		body = m.loaderView(h + 2)
+	} else {
+		body = m.table.View()
+	}
+
+	parts := []string{
+		m.header(),
+		m.tabs(),
+		body,
+		m.footer(),
+	}
+
+	if m.showHelp {
+		parts = append(parts, m.help())
+	}
+
+	view := strings.Join(parts, "\n")
+
+	if m.pending.Title != "" {
+		view += "\n" + m.confirmation()
+	}
+
+	return lipgloss.NewStyle().Width(m.width).Height(m.height).Render(view)
+}
