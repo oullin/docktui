@@ -137,7 +137,7 @@ func (m Model) help() string {
 		titleStyle.Render("Help"),
 		"Use arrow keys to move through rows and tabs. Space toggles row selection on Images, Containers, and Volumes.",
 		"Delete and prune actions open a preview first. Volume deletion needs a second explicit confirmation.",
-		"The Projects tab merges Docker Compose labels with ./.docktui.yaml and ~/.config/docktui/projects.yaml.",
+		"The Projects tab merges Docker Compose labels with ./.docktui.yaml, local config/* files, and ~/.config/docktui/projects.yaml.",
 	}, "\n")
 }
 

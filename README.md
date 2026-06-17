@@ -78,7 +78,8 @@ make build
 
 `docktui` loads and merges project rules from the following paths by default:
 1. `./.docktui.yaml`
-2. `~/.config/docktui/projects.yaml`
+2. Local files matching `config/*.yaml` or `config/*.yml` (ignored by git except for `config/.gitkeep`)
+3. `~/.config/docktui/projects.yaml`
 
 If the `-config` flag is explicitly provided, only the specified configuration file is loaded.
 
