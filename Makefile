@@ -1,4 +1,4 @@
-GO_IMAGE ?= golang:1.26.4-alpine
+GO_IMAGE ?= golang:1.26.10-alpine
 TASK_VERSION ?= latest
 WORKDIR := /workspace
 GO_BIN_VOLUME ?= docktui-go-bin

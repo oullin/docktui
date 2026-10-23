@@ -130,7 +130,7 @@ task smoke
 
 ### Docker-based Tasks (using `make`)
 
-All commands are executed within a consistent Dockerized Go environment (`golang:1.26.4-alpine`):
+All commands are executed within a consistent Dockerized Go environment (`golang:1.26.10-alpine`):
 
 ```sh
 # Format all Go code in Docker
